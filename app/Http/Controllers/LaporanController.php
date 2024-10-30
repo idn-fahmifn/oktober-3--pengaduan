@@ -38,7 +38,7 @@ class LaporanController extends Controller
         ]);
 
         // mendeklarasikan isi tanggal laporan
-        $tanggal = Carbon::now()->format('d-m-y');
+        $tanggal = Carbon::now()->format('y-m-d');
         $waktu = Carbon::now()->format('H:i:s');
         
         // meendeklarasikan isi dari tanggal dan waktu laporan sesuai dengan waktu laporan tersebut dibuat

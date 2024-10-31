@@ -83,12 +83,12 @@
                         <h4 class="card-title">
                             Tanggapan Laporan
                         </h4>
-                        
+
                         @if ($tanggapan)
                         <!-- jika laporannya sudah selesai -->
                             @foreach ($tanggapan as $item)
                                 @if ($item->laporan->status == 'selesai')
-                                    <span class="text-success">Laporan Selesai</span>
+                                <span class="text-success">Laporan Selesai</span>
                                 @else
                                 <!-- jika laporan belum selesai -->
                                 <button type="button" class="btn text-success" data-bs-toggle="modal" data-bs-target="#tanggapan">Edit</button>
@@ -102,11 +102,11 @@
                     </div>
 
                     @if ($tanggapan)
-                      <p>Laporan sudah ditanggapi</p>
+                    <p>Laporan sudah ditanggapi</p>
                     @else
-                        <div class="alert alert-warning mt-4">
-                            <span class="fw-bold">Yaah</span> Laporan ini belum ditanggapi.
-                        </div>
+                    <div class="alert alert-warning mt-4">
+                        <span class="fw-bold">Yaah</span> Laporan ini belum ditanggapi.
+                    </div>
                     @endif
                 </div>
             </div>

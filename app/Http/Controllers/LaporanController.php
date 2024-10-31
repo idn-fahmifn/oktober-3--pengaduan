@@ -67,7 +67,8 @@ class LaporanController extends Controller
     public function show($id)
     {
         $data = Laporan::find($id);
-        return view('laporan.detail', compact('data'));
+        $tanggapan = Laporan::where('id_laporan', $id)->get()->all();
+        return view('laporan.detail', compact('data', 'tanggapan'));
     }
 
     /**

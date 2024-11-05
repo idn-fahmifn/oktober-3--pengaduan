@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.template')
 
 @section('content')
 <div class="container">
@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body w-full p-4">
-                    
+
                     <!-- area judul dan button -->
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">
@@ -78,12 +78,31 @@
         <div class="col-md-12 mt-2">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">
-                        Tanggapan Laporan
-                    </h4>
+
+                    <!-- jika sudah ada tanggapan, maka keluarkan output :  -->
+                    @if ($tanggapan)
+                    @foreach ($tanggapan as $item)
+                        <div class="d-flex justify-content-between">
+                            <h6 class="card-title">
+                                Laporan saya
+                            </h6>
+                            <div class="card-title">
+                                <p class="fw-bold">Terkahir Update pada : <span class="fw-light">{{$item->tanggal_ditanggapi}}</span></p>
+                                <p class="fw-bold">Pukul : <span class="fw-light">{{$item->jam_ditanggapi}}</span></p>
+                            </div>
+                        </div>
+                        <div class="alert alert-warning mt-4">
+                            <span class="fw-bold">Respon dari admin</span> <br>
+                            <span class="mt-2">{{$item->tanggapan}}</span>
+                        </div>
+                    @endforeach
+                    <!-- jika tidak ada :  -->
+                    @else
                     <div class="alert alert-warning mt-4">
                         <span class="fw-bold">Yaah</span> laporan anda belum ditanggapi, mohon menunggu.
                     </div>
+
+                    @endif
                 </div>
             </div>
         </div>

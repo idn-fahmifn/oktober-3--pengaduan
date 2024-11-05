@@ -54,11 +54,12 @@ class TanggapanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $data = Laporan::find($id);
+        $tgp = Tanggapan::find('id_laporan');
         $tanggapan = Tanggapan::where('id_laporan', $id)->get()->all();
-        return view('tanggapan.detail', compact('data','tanggapan'));
+        return view('tanggapan.detail', compact('data','tanggapan', 'tgp'));
     }
 
     /**
@@ -72,9 +73,28 @@ class TanggapanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tanggapan $tanggapan)
+    public function update(Request $request, $id)
     {
-        //
+        
+        $tanggal = Carbon::now()->format('y-m-d');
+        $waktu = Carbon::now()->format('H:i:s');
+        $laporan = Laporan::find($request->id_laporan);
+
+        $data = Tanggapan::find($id);
+        $data->update([
+            'id_laporan' => $request->id_laporan,
+            'tanggal_ditanggapi' => $tanggal,
+            'jam_ditanggapi' => $waktu,
+            'tanggapan' => $request->tanggapan
+        ]);
+
+        // mengubah status jika ada perubahan
+        $laporan->status = $request->status;
+        $laporan->save();
+
+        return back()->with('succeess', 'laporan sudah diupdate');
+
+        
     }
 
     /**

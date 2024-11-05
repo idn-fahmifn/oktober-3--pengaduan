@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Laporan;
+use App\Models\Tanggapan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -67,7 +68,7 @@ class LaporanController extends Controller
     public function show($id)
     {
         $data = Laporan::find($id);
-        $tanggapan = Laporan::where('id_laporan', $id)->get()->all();
+        $tanggapan = Tanggapan::where('id_laporan', $id)->get()->all();
         return view('laporan.detail', compact('data', 'tanggapan'));
     }
 
@@ -94,4 +95,5 @@ class LaporanController extends Controller
     {
         //
     }
+
 }

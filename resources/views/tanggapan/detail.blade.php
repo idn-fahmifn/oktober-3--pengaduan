@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.template')
 
 @section('content')
 <div class="container">
@@ -86,14 +86,14 @@
 
                         @if ($tanggapan)
                         <!-- jika laporannya sudah selesai -->
-                            @foreach ($tanggapan as $item)
-                                @if ($item->laporan->status == 'selesai')
-                                <span class="text-success">Laporan Selesai</span>
-                                @else
-                                <!-- jika laporan belum selesai -->
-                                <button type="button" class="btn text-success" data-bs-toggle="modal" data-bs-target="#tanggapan">Edit</button>
-                                @endif
-                            @endforeach
+                        @foreach ($tanggapan as $item)
+                        @if ($item->laporan->status == 'selesai')
+                        <span class="text-success">Laporan Selesai</span>
+                        @else
+                        <!-- jika laporan belum selesai -->
+                        <button type="button" class="btn text-success" data-bs-toggle="modal" data-bs-target="#editTanggapan">Edit</button>
+                        @endif
+                        @endforeach
                         <!-- jika laporannya masih pending -->
                         @else
                         <button type="button" class="btn text-success" data-bs-toggle="modal" data-bs-target="#tanggapan">Tanggapi</button>
@@ -102,7 +102,15 @@
                     </div>
 
                     @if ($tanggapan)
-                    <p>Laporan sudah ditanggapi</p>
+
+                    @foreach ($tanggapan as $item)
+                    <div class="alert alert-secondary mt-4">
+                        <span class="fw-bold">Respon admin</span>
+                        <hr>
+                        <span class="fw-light">{{$item->tanggapan}}</span>
+                    </div>
+                    @endforeach
+
                     @else
                     <div class="alert alert-warning mt-4">
                         <span class="fw-bold">Yaah</span> Laporan ini belum ditanggapi.
@@ -115,7 +123,6 @@
 </div>
 
 
-<!-- show model tanggapan -->
 <div class="modal fade" id="tanggapan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -150,5 +157,48 @@
         </div>
     </div>
 </div>
+
+<!-- show model tanggapan -->
+@foreach ($tanggapan as $item)
+<div class="modal fade" id="editTanggapan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Tanggapi Laporan</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{route('tanggapan.update', $item->id)}}" method="post">
+                @csrf
+                {{method_field('PUT')}}
+                <div class="modal-body">
+                    <div class="row mt-2">
+                        <input type="text" name="id_laporan" value="{{$data->id}}" hidden>
+                        <div class="col-md-12">
+                            <select name="status" class="form-control" required>
+                                <option value="{{$item->laporan->status}}">{{$item->laporan->status}}</option>
+                                <option value="diproses">diproses</option>
+                                <option value="selesai">selesai</option>
+                                <option value="ditolak">ditolak</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 mt-4">
+                            <label class="text-muted">Tanggapan</label>
+                            <textarea name="tanggapan" class="form-control text-muted">
+                                {{$item->tanggapan}}
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Tanggapi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
+
+<!-- form-edit tanggapan -->
 
 @endsection
